@@ -2,6 +2,8 @@ package io.github.ngbrown11.tipvision.camera;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.vision.Frame;
 
 import io.github.ngbrown11.tipvision.CalculationResultsActivity;
 import io.github.ngbrown11.tipvision.R;
@@ -24,6 +28,7 @@ public class CameraActivity extends Activity {
     public final static String EXTRA_MESSAGE = "io.github.ngbrown11.tipvision.camera.MESSAGE";
     private Camera cam;
     private CameraPreview preview;
+    private FrameLayout previewL;
     private int[] configs;
     private boolean accepted;
 
@@ -41,7 +46,7 @@ public class CameraActivity extends Activity {
 
         // Create our Preview view and set it as the content of our activity.
         preview = new CameraPreview(this, cam);
-        FrameLayout previewL = (FrameLayout) findViewById(R.id.camera_preview);
+        previewL = (FrameLayout) findViewById(R.id.camera_preview);
         previewL.addView(preview);
 
         // Add a listener to the Capture button
@@ -62,14 +67,27 @@ public class CameraActivity extends Activity {
                     }
                 }
         );
-        // Tell user how to capture image
-        Snackbar.make(preview, "Touch anywhere to capture receipt",
-                Toast.LENGTH_LONG)
+        FrameLayout fabFrame = (FrameLayout) findViewById(R.id.fabFrame);
+        fabFrame.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        FloatingActionButton cancel = (FloatingActionButton) findViewById(R.id.fabCancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                canceledCapture();
+            }
+        });
+        // Tell user how actions
+        Snackbar.make(previewL, "Touch anywhere to capture receipt, bottom left to go back",
+                Snackbar.LENGTH_INDEFINITE)
                 .show();
-        // Tell user how to cancel image capture
-        Snackbar.make(preview, "Touch bottom left to go back",
-                Toast.LENGTH_LONG)
-                .show();
+        /*Snackbar.make(preview, "Profile saved!", Snackbar.LENGTH_INDEFINITE)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("TAG", "Done");
+                    }
+                }).show();*/
     }
 
     public void onPictureTaken(Camera camera) {
@@ -85,10 +103,6 @@ public class CameraActivity extends Activity {
                 acceptedCapture();
             }
         });
-        // Tell user how to accept image
-        Snackbar.make(preview, "Touch bottom right to calculate",
-                Toast.LENGTH_LONG)
-                .show();
 
         FloatingActionButton redo = (FloatingActionButton) findViewById(R.id.fabRedo);
         redo.setVisibility(View.VISIBLE);
@@ -98,27 +112,16 @@ public class CameraActivity extends Activity {
                 redo();
             }
         });
-        // Tell user how to redo image
-        Snackbar.make(preview, "Touch bottom center to redo",
-                Toast.LENGTH_LONG)
-                .show();
 
-        FloatingActionButton cancel = (FloatingActionButton) findViewById(R.id.fabCancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                canceledCapture();
-            }
-        });
-        // Tell user how to cancel image capture
-        Snackbar.make(preview, "Touch bottom left to go back",
-                Toast.LENGTH_LONG)
+        // Tell user how to act on image
+        Snackbar.make(previewL, "Touch bottom left to go back, bottom center to redo, bottom right to accept",
+                Snackbar.LENGTH_INDEFINITE)
                 .show();
 
     }
 
     private void redo() {
-        preview.onResume();
+        // TODO: update with logic
     }
 
     private void acceptedCapture() {

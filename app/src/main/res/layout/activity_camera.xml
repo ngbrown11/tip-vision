@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <FrameLayout
@@ -15,6 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/camera_snap" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fabFrame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabCheck"
@@ -44,5 +52,4 @@
             app:srcCompat="@drawable/ic_cancel" />
 
     </FrameLayout>
-
 </LinearLayout>
