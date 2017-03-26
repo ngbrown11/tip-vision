@@ -10,7 +10,7 @@ public class CalculationResultsActivity extends AppCompatActivity {
 
     public final static String EXTRA_MESSAGE = "io.github.ngbrown11.tipvision.MESSAGE";
     private int[] configs;
-    private double testBillTotal = 28.79;
+    private double testBillTotal = 39.79;
     private static int percentage;
     private static int contributors;
 
@@ -29,7 +29,17 @@ public class CalculationResultsActivity extends AppCompatActivity {
 
         TextView tip = (TextView) findViewById(R.id.tip);
         // Calculate tip
-        double tipAmt = (((testBillTotal * 100) * percentage) / 10000);
+        double tipAmt = calculate(testBillTotal, percentage, contributors);
         tip.setText(String.valueOf(tipAmt));
+    }
+
+    private double calculate(double total, double tip, double contributors) {
+        // Compute percentage of tip for each person
+        double actualTipPct = tip / contributors;
+        // Compute tip amount per contributor
+        double actualTipAmt = (((total * 100) * actualTipPct) / 10000);
+        // Leave two decimal spaces
+        actualTipAmt = ((int) (actualTipAmt * 100)) / 100.0;
+        return actualTipAmt;
     }
 }
