@@ -42,7 +42,9 @@ public class CameraActivity extends Activity {
         configs = intent.getExtras().getIntArray("io.github.ngbrown11.tipvision.MESSAGE");
 
         // Create an instance of Camera
-        cam = getCameraInstance();
+        cam = CameraSource.getCameraInstance();
+        Camera.Parameters params = cam.getParameters();
+        params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 
         // Create our Preview view and set it as the content of our activity.
         preview = new CameraPreview(this, cam);
@@ -78,8 +80,8 @@ public class CameraActivity extends Activity {
             }
         });
         // Tell user how actions
-        Snackbar.make(previewL, "Touch anywhere to capture receipt, bottom left to go back",
-                Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(findViewById(android.R.id.content), "Touch anywhere to capture receipt, bottom left to go back",
+                Snackbar.LENGTH_LONG)
                 .show();
         /*Snackbar.make(preview, "Profile saved!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("UNDO", new View.OnClickListener() {
@@ -105,7 +107,7 @@ public class CameraActivity extends Activity {
         });
 
         FloatingActionButton redo = (FloatingActionButton) findViewById(R.id.fabRedo);
-        redo.setVisibility(View.VISIBLE);
+        // TODO: fix this redo.setVisibility(View.VISIBLE);
         redo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -114,8 +116,8 @@ public class CameraActivity extends Activity {
         });
 
         // Tell user how to act on image
-        Snackbar.make(previewL, "Touch bottom left to go back, bottom center to redo, bottom right to accept",
-                Snackbar.LENGTH_INDEFINITE)
+        Snackbar.make(findViewById(android.R.id.content), "Touch bottom left to go back & bottom right to accept",
+                Snackbar.LENGTH_LONG)
                 .show();
 
     }

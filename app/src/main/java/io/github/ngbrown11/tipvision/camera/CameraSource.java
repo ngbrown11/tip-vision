@@ -126,6 +126,18 @@ public class CameraSource {
      */
     private Map<byte[], ByteBuffer> mBytesToByteBuffer = new HashMap<>();
 
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera cam = null;
+        try {
+            cam = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return cam; // returns null if camera is unavailable
+    }
+
     /**
      * Builder for configuring and creating an associated camera source.
      */
@@ -209,18 +221,6 @@ public class CameraSource {
             // TODO: mCameraSource.mFrameProcessor = mCameraSource.new FrameProcessingRunnable(mDetector);
             return mCameraSource;
         }
-    }
-
-    /** A safe way to get an instance of the Camera object. */
-    public static Camera getCameraInstance(){
-        Camera cam = null;
-        try {
-            cam = Camera.open(); // attempt to get a Camera instance
-        }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
-        }
-        return cam; // returns null if camera is unavailable
     }
 }
 
