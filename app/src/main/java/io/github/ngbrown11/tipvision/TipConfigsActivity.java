@@ -40,6 +40,7 @@ public class TipConfigsActivity extends AppCompatActivity {
         gratuityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final Spinner percentage = (Spinner) findViewById(R.id.gratuitySpinner);
         percentage.setAdapter(gratuityAdapter);
+        percentage.setSelection(14);
 
         /**
          * Create the adapter for the contributors spinner
@@ -52,12 +53,13 @@ public class TipConfigsActivity extends AppCompatActivity {
         gratuityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final Spinner contributors = (Spinner) findViewById(R.id.contributorsSpinner);
         contributors.setAdapter(contributorsAdapter);
+        contributors.setSelection(0);
 
         /**
          * TODO define the method to operate camera activity on click
          * */
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setAlpha(0.25f);
+        fab.setAlpha(0.75f);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +69,6 @@ public class TipConfigsActivity extends AppCompatActivity {
                 Intent intent = new Intent(TipConfigsActivity.this, CameraActivity.class);
                 intent.putExtra(EXTRA_MESSAGE, configs);
                 startActivity(intent);
-                TipConfigsActivity.this.finish();
             }
         });
     }
