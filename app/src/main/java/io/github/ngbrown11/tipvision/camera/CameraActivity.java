@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import io.github.ngbrown11.tipvision.CalculationResultsActivity;
 import io.github.ngbrown11.tipvision.R;
@@ -60,6 +62,14 @@ public class CameraActivity extends Activity {
                     }
                 }
         );
+        // Tell user how to capture image
+        Snackbar.make(preview, "Touch anywhere to capture receipt",
+                Toast.LENGTH_LONG)
+                .show();
+        // Tell user how to cancel image capture
+        Snackbar.make(preview, "Touch bottom left to go back",
+                Toast.LENGTH_LONG)
+                .show();
     }
 
     public void onPictureTaken(Camera camera) {
@@ -75,6 +85,11 @@ public class CameraActivity extends Activity {
                 acceptedCapture();
             }
         });
+        // Tell user how to accept image
+        Snackbar.make(preview, "Touch bottom right to calculate",
+                Toast.LENGTH_LONG)
+                .show();
+
         FloatingActionButton redo = (FloatingActionButton) findViewById(R.id.fabRedo);
         redo.setVisibility(View.VISIBLE);
         redo.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +98,11 @@ public class CameraActivity extends Activity {
                 redo();
             }
         });
+        // Tell user how to redo image
+        Snackbar.make(preview, "Touch bottom center to redo",
+                Toast.LENGTH_LONG)
+                .show();
+
         FloatingActionButton cancel = (FloatingActionButton) findViewById(R.id.fabCancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,13 +110,15 @@ public class CameraActivity extends Activity {
                 canceledCapture();
             }
         });
+        // Tell user how to cancel image capture
+        Snackbar.make(preview, "Touch bottom left to go back",
+                Toast.LENGTH_LONG)
+                .show();
 
     }
 
-    private boolean redo() {
-        preview.surfaceDestroyed(preview.getHolder());
-        preview.surfaceCreated(preview.getHolder());
-        return true;
+    private void redo() {
+        preview.onResume();
     }
 
     private void acceptedCapture() {
