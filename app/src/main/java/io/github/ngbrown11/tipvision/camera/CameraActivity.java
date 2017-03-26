@@ -42,7 +42,7 @@ public class CameraActivity extends Activity {
         configs = intent.getExtras().getIntArray("io.github.ngbrown11.tipvision.MESSAGE");
 
         // Create an instance of Camera
-        cam = CameraSource.getCameraInstance();
+        cam = getCameraInstance();
         Camera.Parameters params = cam.getParameters();
         params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
 
